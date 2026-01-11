@@ -10,9 +10,19 @@
         .header { background: linear-gradient(90deg, #E60012 0%, #003DA5 50%, #FFCD00 100%); padding: 20px; color: white; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         .header h1 { font-size: 24px; font-weight: 700; margin-bottom: 5px; }
         .header p { font-size: 13px; opacity: 0.95; }
-        .game-container { width: 100%; height: 60vh; border: none; background: #f5f5f5; }
+        .game-section { display: flex; flex-direction: column; background: #f5f5f5; border-bottom: 3px solid #E60012; }
+        .game-controls { padding: 12px 20px; background: #fafafa; border-bottom: 2px solid #ddd; display: flex; gap: 10px; align-items: center; }
+        .game-controls button { padding: 8px 20px; background: linear-gradient(90deg, #E60012 0%, #003DA5 100%); color: white; border: none; border-radius: 4px; font-weight: 700; font-size: 12px; cursor: pointer; transition: all 0.3s; }
+        .game-controls button:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(230,0,18,0.3); }
+        .game-container { height: 50vh; position: relative; }
         .game-container iframe { width: 100%; height: 100%; border: none; }
-        .menu-container { height: 40vh; background: white; border-top: 3px solid #E60012; display: flex; flex-direction: column; }
+        .log-bar { background: #1a1a1a; color: #00ff00; padding: 12px 20px; font-family: monospace; font-size: 12px; height: 60px; overflow-y: auto; border-top: 2px solid #333; display: flex; flex-direction: column-reverse; }
+        .log-entry { margin: 2px 0; }
+        .log-success { color: #28A745; }
+        .log-error { color: #FF6347; }
+        .log-info { color: #00ff00; }
+        .log-warning { color: #FFCD00; }
+        .menu-container { height: 50vh; background: white; display: flex; flex-direction: column; }
         .tabs { display: flex; gap: 0; background: white; border-bottom: 2px solid #e0e0e0; padding-left: 20px; }
         .tab-btn { padding: 15px 25px; background: none; border: none; cursor: pointer; font-weight: 700; font-size: 13px; color: #666; border-bottom: 3px solid transparent; transition: all 0.3s; }
         .tab-btn:hover { color: #E60012; background: #fafafa; }
@@ -20,10 +30,6 @@
         .tab-content { flex: 1; overflow-y: auto; display: none; }
         .tab-content.active { display: block; }
         .content-wrapper { padding: 20px; height: 100%; overflow-y: auto; }
-        .stats-panel { background: #f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #003DA5; font-size: 12px; }
-        .stat-row { display: flex; justify-content: space-between; margin-bottom: 8px; }
-        .stat-label { color: #666; font-weight: 600; }
-        .stat-value { color: #E60012; font-weight: 700; }
         .cheat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .cheat-group { margin-bottom: 20px; }
         .group-title { font-size: 13px; font-weight: 700; color: #003DA5; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid #FFCD00; }
@@ -38,64 +44,78 @@
         .status { padding: 8px 12px; border-radius: 4px; margin-top: 8px; font-size: 11px; display: none; font-weight: 600; }
         .status.success { display: block; background: #d4edda; color: #155724; border-left: 3px solid #28A745; }
         .status.error { display: block; background: #f8d7da; color: #721C24; border-left: 3px solid #E60012; }
+        .code-display { background: #1a1a1a; color: #00ff00; padding: 12px; border-radius: 4px; font-family: monospace; font-size: 10px; max-height: 100px; overflow-y: auto; margin: 10px 0; border: 1px solid #333; }
+        .copy-hint { font-size: 11px; color: #666; margin-top: 8px; font-style: italic; }
         .drop-zone { border: 2px dashed #003DA5; border-radius: 6px; padding: 20px; text-align: center; margin: 15px 0; background: #f0f8ff; cursor: pointer; transition: all 0.3s; }
         .drop-zone:hover { border-color: #E60012; background: #fff0f0; }
         .drop-zone p { color: #003DA5; font-weight: 700; margin-bottom: 5px; font-size: 12px; }
         textarea { width: 100%; height: 100px; padding: 10px; border: 2px solid #ddd; border-radius: 4px; font-family: monospace; font-size: 11px; display: none; margin: 10px 0; }
         textarea.visible { display: block; }
-        .button-group { display: flex; gap: 8px; }
-        .section-break { margin: 20px 0; padding: 15px 0; border-bottom: 1px solid #e0e0e0; }
-        @media (max-width: 1024px) { .cheat-grid { grid-template-columns: 1fr; } .game-container { height: 50vh; } .menu-container { height: 50vh; } }
+        @media (max-width: 1024px) { .cheat-grid { grid-template-columns: 1fr; } .game-container { height: 45vh; } .menu-container { height: 55vh; } }
         @media (max-width: 768px) { .tabs { padding-left: 10px; } .tab-btn { padding: 12px 15px; font-size: 12px; } .content-wrapper { padding: 15px; } .cheat-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
     <div class="header">
         <h1>🎮 PokePath TD - Cheats Edition</h1>
-        <p>Pokemon Red/Blue/Yellow Inspired</p>
+        <p>Pokemon Red/Blue/Yellow Inspired | Using Bookmarklets</p>
     </div>
 
-    <div class="game-container">
-        <iframe src="https://pokepath-td.org/"></iframe>
+    <div class="game-section">
+        <div class="game-controls">
+            <button onclick="refreshGameFrame()">🔄 Refresh Game</button>
+            <button onclick="clearLogs()">🗑️ Clear Logs</button>
+            <span id="iframeStatus" style="font-size: 12px; color: #E60012; font-weight: 700;">Checking iframe...</span>
+        </div>
+        <div class="game-container">
+            <iframe id="gameFrame" src="https://pokepath-td.org/"></iframe>
+        </div>
+        <div class="log-bar" id="logBar">
+            <div class="log-entry log-info">🟢 Log system ready</div>
+        </div>
     </div>
 
     <div class="menu-container">
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('save')">💾 SAVE</button>
-            <button class="tab-btn" onclick="switchTab('cheats')">⚡ CHEATS</button>
+            <button class="tab-btn active" onclick="switchTab('bookmarklets')">🪩 BOOKMARKLETS</button>
+            <button class="tab-btn" onclick="switchTab('cheats')">⚡ CHEATS GUIDE</button>
         </div>
 
-        <!-- SAVE TAB -->
-        <div id="save" class="tab-content active">
+        <!-- BOOKMARKLETS TAB -->
+        <div id="bookmarklets" class="tab-content active">
             <div class="content-wrapper">
-                <div class="stats-panel">
-                    <div class="stat-row">
-                        <span class="stat-label">💰 Gold:</span>
-                        <span class="stat-value" id="liveGold">-</span>
-                    </div>
-                    <div class="stat-row">
-                        <span class="stat-label">⭐ Stars:</span>
-                        <span class="stat-value" id="liveStars">-</span>
-                    </div>
-                    <div class="stat-row">
-                        <span class="stat-label">👹 Species:</span>
-                        <span class="stat-value" id="liveSpecies">-</span>
-                    </div>
-                    <div class="stat-row">
-                        <span class="stat-label">🌊 Wave:</span>
-                        <span class="stat-value" id="liveWave">-</span>
+                <div class="cheat-group">
+                    <div class="group-title">📥 EXPORT / IMPORT</div>
+                    <div class="cheat-item">
+                        <div style="font-size: 12px; color: #666; margin-bottom: 12px; line-height: 1.6;">
+                            <strong style="color: #003DA5;">How to use Bookmarklets:</strong><br>
+                            1. Adjust values below (bookmarklet updates instantly)<br>
+                            2. <strong>Drag the blue button to your Favorites bar</strong><br>
+                            3. Go to pokepath-td.org, right-click → Inspect (F12)<br>
+                            4. Click &lt;html&gt; to select it<br>
+                            5. <strong>Click the bookmarklet in Favorites</strong><br>
+                            6. Press F5 to reload
+                        </div>
                     </div>
                 </div>
 
                 <div class="cheat-group">
-                    <div class="group-title">📥 EXPORT / IMPORT</div>
+                    <div class="group-title">💾 SAVE BOOKMARKLETS</div>
+                    
                     <div class="cheat-item">
-                        <button onclick="exportCurrentSave()">📥 Export Current Save</button>
-                        <div id="exportStatus" class="status"></div>
+                        <div class="cheat-label">📥 Export Current Save</div>
+                        <a draggable="true" href="javascript:(function(){const d=localStorage.getItem('dataPokePath');if(!d){alert('❌ No save found!');return;}const blob=new Blob([d],{type:'text/plain'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='pokepath-save-'+new Date().toISOString().slice(0,10)+'.txt';a.click();URL.revokeObjectURL(url);alert('✅ Save exported!');})()" style="display: flex; text-decoration: none; gap: 8px;">
+                            <button class="small" draggable="true" style="flex: 1; cursor: grab;">📥 Drag to Favorites</button>
+                            <button class="small" style="flex: 0.3;" onclick="copyCode('export')">📋</button>
+                        </a>
                     </div>
+
                     <div class="cheat-item">
-                        <button onclick="restoreMyFullSave()">🎮 Load My 100% Save</button>
-                        <div id="myFullStatus" class="status"></div>
+                        <div class="cheat-label">🎮 Load My 100% Save</div>
+                        <a draggable="true" id="fullSaveLink" href="#" style="display: flex; text-decoration: none; gap: 8px;">
+                            <button class="small" draggable="true" style="flex: 1; cursor: grab;">🎮 Drag to Favorites</button>
+                            <button class="small" style="flex: 0.3;" onclick="copyCode('fullsave')">📋</button>
+                        </a>
                     </div>
                 </div>
 
@@ -106,13 +126,12 @@
                         <small>or click to browse</small>
                     </div>
                     <textarea id="jsonInput"></textarea>
-                    <button onclick="restoreCustomSave()">📤 Restore Custom Save</button>
-                    <div id="customStatus" class="status"></div>
+                    <div class="copy-hint">💡 Copy/paste your save JSON above, then use the bookmarklet from your Favorites</div>
                 </div>
             </div>
         </div>
 
-        <!-- CHEATS TAB -->
+        <!-- CHEATS GUIDE TAB -->
         <div id="cheats" class="tab-content">
             <div class="content-wrapper">
                 <div class="cheat-grid">
@@ -124,14 +143,14 @@
                                 <div class="cheat-label">Gold Amount</div>
                                 <div class="input-group">
                                     <input type="number" id="goldVal" value="999999999">
-                                    <button class="small" onclick="applyGold()">Apply</button>
+                                    <button class="small" onclick="generateBookmarklet('gold')">Code</button>
                                 </div>
                             </div>
                             <div class="cheat-item">
                                 <div class="cheat-label">Persian Gold</div>
                                 <div class="input-group">
                                     <input type="number" id="persianVal" value="99999">
-                                    <button class="small" onclick="applyPersian()">Apply</button>
+                                    <button class="small" onclick="generateBookmarklet('persian')">Code</button>
                                 </div>
                             </div>
                         </div>
@@ -142,21 +161,21 @@
                                 <div class="cheat-label">Stars</div>
                                 <div class="input-group">
                                     <input type="number" id="starsVal" value="900" max="900">
-                                    <button class="small" onclick="applyStars()">Apply</button>
+                                    <button class="small" onclick="generateBookmarklet('stars')">Code</button>
                                 </div>
                             </div>
                             <div class="cheat-item">
                                 <div class="cheat-label">Waves</div>
                                 <div class="input-group">
                                     <input type="number" id="waveVal" value="99">
-                                    <button class="small" onclick="applyWaves()">Apply</button>
+                                    <button class="small" onclick="generateBookmarklet('waves')">Code</button>
                                 </div>
                             </div>
                             <div class="cheat-item">
                                 <div class="cheat-label">Species (0-124)</div>
                                 <div class="input-group">
                                     <input type="number" id="speciesVal" value="124" min="0" max="124">
-                                    <button class="small" onclick="applySpecies()">Apply</button>
+                                    <button class="small" onclick="generateBookmarklet('species')">Code</button>
                                 </div>
                             </div>
                         </div>
@@ -170,14 +189,14 @@
                                 <div class="cheat-label">Power</div>
                                 <div class="input-group">
                                     <input type="number" id="powerVal" value="5000">
-                                    <button class="small" onclick="applyBruyvPower()">Apply</button>
+                                    <button class="small" onclick="generateBookmarklet('power')">Code</button>
                                 </div>
                             </div>
                             <div class="cheat-item">
                                 <div class="cheat-label">Speed</div>
                                 <div class="input-group">
                                     <input type="number" id="speedVal" value="0.20" step="0.01">
-                                    <button class="small" onclick="applyBruyvSpeed()">Apply</button>
+                                    <button class="small" onclick="generateBookmarklet('speed')">Code</button>
                                 </div>
                             </div>
                             <div class="cheat-item">
@@ -188,7 +207,7 @@
                                         <option value="donut" selected>Donut</option>
                                         <option value="line">Line</option>
                                     </select>
-                                    <button class="small" onclick="applyRange()">Apply</button>
+                                    <button class="small" onclick="generateBookmarklet('range')">Code</button>
                                 </div>
                             </div>
                         </div>
@@ -196,31 +215,11 @@
                         <div class="cheat-group">
                             <div class="group-title">⚡ STATUS EFFECTS</div>
                             <div class="cheat-item">
-                                <div class="cheat-label">Burn</div>
-                                <div class="input-group">
-                                    <input type="number" id="burnVal" value="9900">
-                                    <button class="small" onclick="applyBurn()">🔥</button>
-                                </div>
-                            </div>
-                            <div class="cheat-item">
-                                <div class="cheat-label">Poison</div>
-                                <div class="input-group">
-                                    <input type="number" id="poisonVal" value="9900">
-                                    <button class="small" onclick="applyPoison()">☠️</button>
-                                </div>
-                            </div>
-                            <div class="cheat-item">
-                                <div class="cheat-label">Curse</div>
-                                <div class="input-group">
-                                    <input type="number" id="curseVal" value="9900">
-                                    <button class="small" onclick="applyCurse()">💀</button>
-                                </div>
-                            </div>
-                            <div class="cheat-item">
-                                <div class="cheat-label">Stun</div>
-                                <div class="input-group">
-                                    <input type="number" id="stunVal" value="9900">
-                                    <button class="small" onclick="applyStun()">⭐</button>
+                                <div class="button-group">
+                                    <button class="small" onclick="generateBookmarklet('burn')">🔥 Burn</button>
+                                    <button class="small" onclick="generateBookmarklet('poison')">☠️ Poison</button>
+                                    <button class="small" onclick="generateBookmarklet('curse')">💀 Curse</button>
+                                    <button class="small" onclick="generateBookmarklet('stun')">⭐ Stun</button>
                                 </div>
                             </div>
                         </div>
@@ -228,14 +227,15 @@
                         <div class="cheat-group">
                             <div class="group-title">⚡ ONE-CLICK</div>
                             <div class="cheat-item">
-                                <button onclick="applyAllAchievements()">🏆 All Achievements</button>
+                                <button onclick="generateBookmarklet('allachievements')">🏆 All Achievements</button>
                             </div>
                             <div class="cheat-item">
-                                <button onclick="applyAllSpecies()">👹 124 Species</button>
+                                <button onclick="generateBookmarklet('allspecies')">👹 124 Species</button>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div id="codeOutput" class="code-display" style="display: none;"></div>
             </div>
         </div>
     </div>
@@ -243,62 +243,106 @@
     <script>
         const FULL_SAVE={"config":{"scale":1,"language":0,"audio":{"master":10,"music":8,"ui":10,"effects":10},"showDamage":true,"showRoute":true,"autoReset":2,"autoStop":true,"displayHealth":1,"showTC":true},"save":{"new":false,"player":{"name":"sOARESDEN","portrait":14,"gold":6739561,"health":[14,14,14,14,14,14,14,14,14],"records":[100,100,100,100,100,100,100,100,100],"stars":900,"teamSlots":10,"extraGold":98},"team":[],"box":[],"area":{"routeNumber":0,"routeWaves":[100,100,100,100,100,100,100,100,100]}}};
 
-        function switchTab(t){document.querySelectorAll('.tab-content').forEach(e=>e.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(e=>e.classList.remove('active'));document.getElementById(t).classList.add('active');event.target.classList.add('active');}
+        function log(msg, type='info'){
+            const logBar=document.getElementById('logBar');
+            const entry=document.createElement('div');
+            entry.className=`log-entry log-${type}`;
+            entry.textContent=`[${new Date().toLocaleTimeString()}] ${msg}`;
+            logBar.insertBefore(entry, logBar.firstChild);
+            if(logBar.children.length>20) logBar.removeChild(logBar.lastChild);
+        }
 
-        function getGameFrame(){return document.querySelector('.game-container iframe').contentWindow;}
-        
-        function showStatus(id,msg,ok){const e=document.getElementById(id);e.textContent=msg;e.className='status '+(ok?'success':'error');setTimeout(()=>{e.className='status'},3000);}
-        
-        function getData(){try{return JSON.parse(getGameFrame().localStorage.getItem('dataPokePath'));}catch(e){return null;}}
-        
-        function saveData(d){try{getGameFrame().localStorage.setItem('dataPokePath',JSON.stringify(d));updateStats();}catch(e){}}
-        
-        function updateStats(){const d=getData();if(!d){document.getElementById('liveGold').textContent='-';document.getElementById('liveStars').textContent='-';document.getElementById('liveSpecies').textContent='-';document.getElementById('liveWave').textContent='-';return;}document.getElementById('liveGold').textContent='$'+d.save.player.gold.toLocaleString();document.getElementById('liveStars').textContent=d.save.player.stars+'/900';document.getElementById('liveSpecies').textContent=(d.save.player.stats?.defeatedSpecies?.length||0)+'/124';document.getElementById('liveWave').textContent='Wave '+d.save.area.routeWaves[d.save.area.routeNumber];}
-        
-        function exportCurrentSave(){const d=getData();if(!d){showStatus('exportStatus','❌ No save',false);return;}const s=JSON.stringify(d);navigator.clipboard.writeText(s).then(()=>{showStatus('exportStatus','✅ Copied to clipboard!',true);document.getElementById('jsonInput').value=s;document.getElementById('jsonInput').classList.add('visible');}).catch(()=>{showStatus('exportStatus','❌ Copy failed',false);});}
-        
-        function restoreMyFullSave(){try{getGameFrame().localStorage.setItem('dataPokePath',JSON.stringify(FULL_SAVE));updateStats();showStatus('myFullStatus','✅ 100% save loaded! Reload game',true);}catch(e){showStatus('myFullStatus','❌ Error',false);}}
-        
-        function restoreCustomSave(){const j=document.getElementById('jsonInput').value.trim();if(!j){showStatus('customStatus','❌ Paste JSON first!',false);return;}try{JSON.parse(j);getGameFrame().localStorage.setItem('dataPokePath',j);updateStats();showStatus('customStatus','✅ Custom save loaded! Reload',true);}catch(e){showStatus('customStatus','❌ Invalid JSON',false);}}
-        
-        function applyGold(){const d=getData();if(!d)return;d.save.player.gold=parseInt(document.getElementById('goldVal').value)||999999;saveData(d);}
-        
-        function applyPersian(){const d=getData();if(!d)return;d.save.player.achievementProgress=d.save.player.achievementProgress||{};d.save.player.achievementProgress.stolenGold=parseInt(document.getElementById('persianVal').value)||99999;saveData(d);}
-        
-        function applyStars(){const d=getData();if(!d)return;d.save.player.stars=parseInt(document.getElementById('starsVal').value)||900;saveData(d);}
-        
-        function applyWaves(){const d=getData();if(!d)return;d.save.area.routeWaves[d.save.area.routeNumber]=parseInt(document.getElementById('waveVal').value)||99;saveData(d);}
-        
-        function applySpecies(){const d=getData();if(!d)return;const s=["delibird","kecleon","ninjask","zoroark","rattata","raticate","zubat","golbat","geodude","graveler","golem","doduo","dodrio","chingling","chimecho","nosepass","probopass","bellsprout","weepinbell","victreebel","chansey","solrock","lunatone","rhyhorn","rhydon","caterpie","superCaterpie","metapod","butterfree","venonat","venomoth","slugma","magcargo","tropius","porygon","larvitar","pupitar","tyranitar","scraggy","scrafty","furfrou","kangaskhan","articuno","zapdos","moltres","zigzagoon","linoone","magnemite","magneton","magnezone","poochyena","mightyena","purrloin","liepard","exeggcute","exeggutor","bronzor","bronzong","whismur","loudred","exploud","cinccino","seviper","zangoose","lickitung","lickilicky","wurmple","cascoon","beautifly","dustox","yanma","drifloon","drifblim","skarmory","porygon2","dratini","dragonair","dragonite","baltoy","claydol","sigilyph","yanmega","raikou","entei","suicune","sentret","furret","ponyta","rapidash","swinub","piloswine","mamoswine","spearow","fearow","combee","vespiquen","snover","abomasnow","lotad","lombre","ludicolo","seedot","nuzleaf","shiftry","shroomish","breloom","makuhita","hariyama","aron","lairon","aggron","meditite","medicham","electrike","manectric","plusle","minun","volbeat","illumise","roselia","gulpin","swalot","carvanha","sharpedo"];let a=Math.min(parseInt(document.getElementById('speciesVal').value)||124,124);d.save.player.stats=d.save.player.stats||{};d.save.player.stats.defeatedSpecies=s.slice(0,a);saveData(d);}
-        
-        function applyBruyvPower(){const d=getData();if(!d)return;if(!d.save.team[7])d.save.team[7]={};if(!d.save.team[7].specie)d.save.team[7].specie={power:{}};d.save.team[7].specie.power.base=parseInt(document.getElementById('powerVal').value)||5000;d.save.team[7].specie.power.scale=0;saveData(d);}
-        
-        function applyBruyvSpeed(){const d=getData();if(!d)return;if(!d.save.team[7])d.save.team[7]={};if(!d.save.team[7].specie)d.save.team[7].specie={speed:{}};d.save.team[7].specie.speed.base=(parseFloat(document.getElementById('speedVal').value)||0.20)*1000;d.save.team[7].specie.speed.scale=0;saveData(d);}
-        
-        function applyRange(){const d=getData();if(!d)return;if(!d.save.team[7])d.save.team[7]={};if(!d.save.team[7].specie)d.save.team[7].specie={};d.save.team[7].specie.rangeType=document.getElementById('rangeVal').value;saveData(d);}
-        
-        function applyBurn(){const d=getData();if(!d)return;d.save.player.stats=d.save.player.stats||{};d.save.player.stats.appliedBurns=parseInt(document.getElementById('burnVal').value)||9900;saveData(d);}
-        
-        function applyPoison(){const d=getData();if(!d)return;d.save.player.stats=d.save.player.stats||{};d.save.player.stats.appliedPoisons=parseInt(document.getElementById('poisonVal').value)||9900;saveData(d);}
-        
-        function applyCurse(){const d=getData();if(!d)return;d.save.player.stats=d.save.player.stats||{};d.save.player.stats.appliedCurses=parseInt(document.getElementById('curseVal').value)||9900;saveData(d);}
-        
-        function applyStun(){const d=getData();if(!d)return;d.save.player.stats=d.save.player.stats||{};d.save.player.stats.appliedStuns=parseInt(document.getElementById('stunVal').value)||9900;saveData(d);}
-        
-        function applyAllAchievements(){const d=getData();if(!d)return;d.save.player.achievements=d.save.player.achievements||[];d.save.player.achievements.forEach(a=>a.status=true);saveData(d);}
-        
-        function applyAllSpecies(){const d=getData();if(!d)return;const s=["delibird","kecleon","ninjask","zoroark","rattata","raticate","zubat","golbat","geodude","graveler","golem","doduo","dodrio","chingling","chimecho","nosepass","probopass","bellsprout","weepinbell","victreebel","chansey","solrock","lunatone","rhyhorn","rhydon","caterpie","superCaterpie","metapod","butterfree","venonat","venomoth","slugma","magcargo","tropius","porygon","larvitar","pupitar","tyranitar","scraggy","scrafty","furfrou","kangaskhan","articuno","zapdos","moltres","zigzagoon","linoone","magnemite","magneton","magnezone","poochyena","mightyena","purrloin","liepard","exeggcute","exeggutor","bronzor","bronzong","whismur","loudred","exploud","cinccino","seviper","zangoose","lickitung","lickilicky","wurmple","cascoon","beautifly","dustox","yanma","drifloon","drifblim","skarmory","porygon2","dratini","dragonair","dragonite","baltoy","claydol","sigilyph","yanmega","raikou","entei","suicune","sentret","furret","ponyta","rapidash","swinub","piloswine","mamoswine","spearow","fearow","combee","vespiquen","snover","abomasnow","lotad","lombre","ludicolo","seedot","nuzleaf","shiftry","shroomish","breloom","makuhita","hariyama","aron","lairon","aggron","meditite","medicham","electrike","manectric","plusle","minun","volbeat","illumise","roselia","gulpin","swalot","carvanha","sharpedo"];d.save.player.stats=d.save.player.stats||{};d.save.player.stats.defeatedSpecies=s;saveData(d);}
+        function clearLogs(){
+            document.getElementById('logBar').innerHTML='<div class="log-entry log-info">🟢 Logs cleared</div>';
+        }
+
+        function checkIframe(){
+            const iframe=document.getElementById('gameFrame');
+            try{
+                if(iframe.contentWindow && iframe.contentWindow.document){
+                    document.getElementById('iframeStatus').textContent='✅ Game iframe loaded';
+                    document.getElementById('iframeStatus').style.color='#28A745';
+                    log('✅ Game iframe is loaded and accessible','success');
+                }
+            }catch(e){
+                document.getElementById('iframeStatus').textContent='⚠️ Cross-origin - Using bookmarklets';
+                document.getElementById('iframeStatus').style.color='#FFCD00';
+                log('⚠️ Cross-origin restriction - Use bookmarklets to modify game','warning');
+            }
+        }
+
+        function refreshGameFrame(){
+            const iframe=document.getElementById('gameFrame');
+            log('🔄 Refreshing game iframe...','info');
+            iframe.src=iframe.src;
+            setTimeout(checkIframe, 2000);
+        }
+
+        function switchTab(t){
+            document.querySelectorAll('.tab-content').forEach(e=>e.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(e=>e.classList.remove('active'));
+            document.getElementById(t).classList.add('active');
+            event.target.classList.add('active');
+            log(`📂 Switched to ${t} tab`,'info');
+        }
+
+        function generateBookmarklet(type){
+            let code='';
+            const val=(id)=>document.getElementById(id)?.value;
+            
+            switch(type){
+                case'gold':code=`const d=JSON.parse(localStorage.getItem('dataPokePath'));d.save.player.gold=${val('goldVal')||999999};localStorage.setItem('dataPokePath',JSON.stringify(d));alert('✅ Gold applied!');location.reload();`;break;
+                case'persian':code=`const d=JSON.parse(localStorage.getItem('dataPokePath'));d.save.player.achievementProgress=d.save.player.achievementProgress||{};d.save.player.achievementProgress.stolenGold=${val('persianVal')||99999};localStorage.setItem('dataPokePath',JSON.stringify(d));alert('✅ Persian Gold applied!');location.reload();`;break;
+                case'stars':code=`const d=JSON.parse(localStorage.getItem('dataPokePath'));d.save.player.stars=${val('starsVal')||900};localStorage.setItem('dataPokePath',JSON.stringify(d));alert('✅ Stars applied!');location.reload();`;break;
+                case'waves':code=`const d=JSON.parse(localStorage.getItem('dataPokePath'));d.save.area.routeWaves[d.save.area.routeNumber]=${val('waveVal')||99};localStorage.setItem('dataPokePath',JSON.stringify(d));alert('✅ Waves applied!');location.reload();`;break;
+                case'species':code=`const sp=["delibird","kecleon","ninjask","zoroark","rattata","raticate","zubat","golbat","geodude","graveler","golem","doduo","dodrio","chingling","chimecho","nosepass","probopass","bellsprout","weepinbell","victreebel","chansey","solrock","lunatone","rhyhorn","rhydon","caterpie","superCaterpie","metapod","butterfree","venonat","venomoth","slugma","magcargo","tropius","porygon","larvitar","pupitar","tyranitar","scraggy","scrafty","furfrou","kangaskhan","articuno","zapdos","moltres","zigzagoon","linoone","magnemite","magneton","magnezone","poochyena","mightyena","purrloin","liepard","exeggcute","exeggutor","bronzor","bronzong","whismur","loudred","exploud","cinccino","seviper","zangoose","lickitung","lickilicky","wurmple","cascoon","beautifly","dustox","yanma","drifloon","drifblim","skarmory","porygon2","dratini","dragonair","dragonite","baltoy","claydol","sigilyph","yanmega","raikou","entei","suicune","sentret","furret","ponyta","rapidash","swinub","piloswine","mamoswine","spearow","fearow","combee","vespiquen","snover","abomasnow","lotad","lombre","ludicolo","seedot","nuzleaf","shiftry","shroomish","breloom","makuhita","hariyama","aron","lairon","aggron","meditite","medicham","electrike","manectric","plusle","minun","volbeat","illumise","roselia","gulpin","swalot","carvanha","sharpedo"];const d=JSON.parse(localStorage.getItem('dataPokePath'));d.save.player.stats=d.save.player.stats||{};d.save.player.stats.defeatedSpecies=sp.slice(0,${val('speciesVal')||124});localStorage.setItem('dataPokePath',JSON.stringify(d));alert('✅ Species applied!');location.reload();`;break;
+                case'power':code=`const d=JSON.parse(localStorage.getItem('dataPokePath'));d.save.team[7]=d.save.team[7]||{};d.save.team[7].specie=d.save.team[7].specie||{power:{}};d.save.team[7].specie.power.base=${val('powerVal')||5000};d.save.team[7].specie.power.scale=0;localStorage.setItem('dataPokePath',JSON.stringify(d));alert('✅ Power applied!');location.reload();`;break;
+                case'speed':code=`const d=JSON.parse(localStorage.getItem('dataPokePath'));d.save.team[7]=d.save.team[7]||{};d.save.team[7].specie=d.save.team[7].specie||{speed:{}};d.save.team[7].specie.speed.base=${val('speedVal')||0.2}*1000;d.save.team[7].specie.speed.scale=0;localStorage.setItem('dataPokePath',JSON.stringify(d));alert('✅ Speed applied!');location.reload();`;break;
+                case'range':code=`const d=JSON.parse(localStorage.getItem('dataPokePath'));d.save.team[7]=d.save.team[7]||{};d.save.team[7].specie=d.save.team[7].specie||{};d.save.team[7].specie.rangeType='${val('rangeVal')||'donut'}';localStorage.setItem('dataPokePath',JSON.stringify(d));alert('✅ Range applied!');location.reload();`;break;
+                case'burn':case'poison':case'curse':case'stun':const stat=type.charAt(0).toUpperCase()+type.slice(1);const stat2='applied'+stat+'s';code=`const d=JSON.parse(localStorage.getItem('dataPokePath'));d.save.player.stats=d.save.player.stats||{};d.save.player.stats.${stat2}=${val(type+'Val')||9900};localStorage.setItem('dataPokePath',JSON.stringify(d));alert('✅ ${stat} applied!');location.reload();`;break;
+                case'allachievements':code=`const d=JSON.parse(localStorage.getItem('dataPokePath'));d.save.player.achievements=d.save.player.achievements||[];d.save.player.achievements.forEach(a=>a.status=true);localStorage.setItem('dataPokePath',JSON.stringify(d));alert('✅ All achievements!');location.reload();`;break;
+                case'allspecies':code=`const sp=["delibird","kecleon","ninjask","zoroark","rattata","raticate","zubat","golbat","geodude","graveler","golem","doduo","dodrio","chingling","chimecho","nosepass","probopass","bellsprout","weepinbell","victreebel","chansey","solrock","lunatone","rhyhorn","rhydon","caterpie","superCaterpie","metapod","butterfree","venonat","venomoth","slugma","magcargo","tropius","porygon","larvitar","pupitar","tyranitar","scraggy","scrafty","furfrou","kangaskhan","articuno","zapdos","moltres","zigzagoon","linoone","magnemite","magneton","magnezone","poochyena","mightyena","purrloin","liepard","exeggcute","exeggutor","bronzor","bronzong","whismur","loudred","exploud","cinccino","seviper","zangoose","lickitung","lickilicky","wurmple","cascoon","beautifly","dustox","yanma","drifloon","drifblim","skarmory","porygon2","dratini","dragonair","dragonite","baltoy","claydol","sigilyph","yanmega","raikou","entei","suicune","sentret","furret","ponyta","rapidash","swinub","piloswine","mamoswine","spearow","fearow","combee","vespiquen","snover","abomasnow","lotad","lombre","ludicolo","seedot","nuzleaf","shiftry","shroomish","breloom","makuhita","hariyama","aron","lairon","aggron","meditite","medicham","electrike","manectric","plusle","minun","volbeat","illumise","roselia","gulpin","swalot","carvanha","sharpedo"];const d=JSON.parse(localStorage.getItem('dataPokePath'));d.save.player.stats=d.save.player.stats||{};d.save.player.stats.defeatedSpecies=sp;localStorage.setItem('dataPokePath',JSON.stringify(d));alert('✅ All species!');location.reload();`;break;
+            }
+            
+            if(!code){log('❌ Error generating bookmarklet','error');return;}
+            
+            const codeOutput=document.getElementById('codeOutput');
+            codeOutput.textContent=code;
+            codeOutput.style.display='block';
+            codeOutput.scrollIntoView({behavior:'smooth'});
+            
+            log(`📋 Generated code for: ${type}`,'success');
+        }
+
+        function copyCode(type){
+            let code='';
+            if(type==='export'){
+                code=`javascript:(function(){const d=localStorage.getItem('dataPokePath');if(!d){alert('❌ No save found!');return;}const blob=new Blob([d],{type:'text/plain'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='pokepath-save-'+new Date().toISOString().slice(0,10)+'.txt';a.click();URL.revokeObjectURL(url);alert('✅ Save exported!');})()`
+            }else if(type==='fullsave'){
+                code=`javascript:(function(){const fs=${JSON.stringify(FULL_SAVE)};localStorage.setItem('dataPokePath',JSON.stringify(fs));alert('✅ My 100% Save loaded! Reload the game');location.reload();})()`;
+            }
+            navigator.clipboard.writeText(code).then(()=>{
+                log('✅ Code copied to clipboard','success');
+            }).catch(()=>{
+                log('❌ Copy failed','error');
+            });
+        }
 
         // Drop zone
         const dz=document.getElementById('dropZone');
-        dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('dragover');});
-        dz.addEventListener('dragleave',()=>{dz.classList.remove('dragover');});
-        dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('dragover');const f=e.dataTransfer.files[0];if(f){const r=new FileReader;r.onload=e=>{document.getElementById('jsonInput').value=e.target.result;document.getElementById('jsonInput').classList.add('visible');};r.readAsText(f);}});
-        dz.addEventListener('click',()=>{const i=document.createElement('input');i.type='file';i.accept='.json,.txt';i.onchange=e=>{const r=new FileReader;r.onload=t=>{document.getElementById('jsonInput').value=t.target.result;document.getElementById('jsonInput').classList.add('visible');};r.readAsText(e.target.files[0]);};i.click();});
+        dz.addEventListener('dragover',e=>{e.preventDefault();dz.style.background='#fff0f0';});
+        dz.addEventListener('dragleave',()=>{dz.style.background='#f0f8ff';});
+        dz.addEventListener('drop',e=>{e.preventDefault();dz.style.background='#f0f8ff';const f=e.dataTransfer.files[0];if(f){const r=new FileReader;r.onload=e=>{document.getElementById('jsonInput').value=e.target.result;document.getElementById('jsonInput').classList.add('visible');log(`📂 Loaded file: ${f.name}`,'success');};r.readAsText(f);}});
+        dz.addEventListener('click',()=>{const i=document.createElement('input');i.type='file';i.accept='.json,.txt';i.onchange=e=>{const r=new FileReader;r.onload=t=>{document.getElementById('jsonInput').value=t.target.result;document.getElementById('jsonInput').classList.add('visible');log(`📂 Loaded file: ${e.target.files[0].name}`,'success');};r.readAsText(e.target.files[0]);};i.click();});
 
-        // Update stats on load
-        setInterval(updateStats, 1000);
-        updateStats();
+        // Setup full save bookmarklet
+        const fullSaveCode=`javascript:(function(){const fs=${JSON.stringify(FULL_SAVE)};localStorage.setItem('dataPokePath',JSON.stringify(fs));alert('✅ My 100% Save loaded! Reload the game');location.reload();})()`;
+        document.getElementById('fullSaveLink').href=fullSaveCode;
+
+        // Init
+        log('🎮 PokePath TD Cheats Edition loaded','success');
+        checkIframe();
+        setInterval(checkIframe,5000);
     </script>
 </body>
 </html>

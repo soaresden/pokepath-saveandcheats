@@ -8,234 +8,210 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: white; min-height: 100vh; }
         .header { background: linear-gradient(90deg, #E60012 0%, #003DA5 50%, #FFCD00 100%); padding: 20px; color: white; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .header h1 { font-size: 24px; font-weight: 700; margin-bottom: 5px; }
-        .header p { font-size: 13px; opacity: 0.95; }
-        .game-section { display: flex; flex-direction: column; background: #f5f5f5; border-bottom: 3px solid #E60012; }
+        .header h1 { font-size: 24px; font-weight: 700; margin-bottom: 0; }
+        .main-layout { display: flex; height: calc(100vh - 70px); }
+        .game-panel { flex: 1; display: flex; flex-direction: column; background: #f5f5f5; min-width: 300px; }
         .game-controls { padding: 12px 20px; background: #fafafa; border-bottom: 2px solid #ddd; display: flex; gap: 10px; align-items: center; }
         .game-controls button { padding: 8px 20px; background: linear-gradient(90deg, #E60012 0%, #003DA5 100%); color: white; border: none; border-radius: 4px; font-weight: 700; font-size: 12px; cursor: pointer; transition: all 0.3s; }
         .game-controls button:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(230,0,18,0.3); }
-        .game-container { height: 50vh; position: relative; }
+        .game-container { flex: 1; position: relative; }
         .game-container iframe { width: 100%; height: 100%; border: none; }
-        .log-bar { background: #1a1a1a; color: #00ff00; padding: 12px 20px; font-family: monospace; font-size: 12px; height: 60px; overflow-y: auto; border-top: 2px solid #333; display: flex; flex-direction: column-reverse; }
+        .log-bar { background: #1a1a1a; color: #00ff00; padding: 12px 20px; font-family: monospace; font-size: 11px; height: 80px; overflow-y: auto; border-top: 2px solid #333; display: flex; flex-direction: column-reverse; }
         .log-entry { margin: 2px 0; }
         .log-success { color: #28A745; }
         .log-error { color: #FF6347; }
         .log-info { color: #00ff00; }
         .log-warning { color: #FFCD00; }
-        .menu-container { height: 50vh; background: white; display: flex; flex-direction: column; }
-        .tabs { display: flex; gap: 0; background: white; border-bottom: 2px solid #e0e0e0; padding-left: 20px; }
-        .tab-btn { padding: 15px 25px; background: none; border: none; cursor: pointer; font-weight: 700; font-size: 13px; color: #666; border-bottom: 3px solid transparent; transition: all 0.3s; }
-        .tab-btn:hover { color: #E60012; background: #fafafa; }
+        .divider { width: 5px; background: #E60012; cursor: col-resize; border-left: 1px solid #ddd; border-right: 1px solid #ddd; transition: background 0.2s; }
+        .divider:hover { background: #003DA5; }
+        .cheats-panel { width: 350px; background: white; display: flex; flex-direction: column; border-left: 2px solid #ddd; min-width: 250px; }
+        .cheats-header { background: linear-gradient(90deg, #E60012 0%, #003DA5 100%); color: white; padding: 15px; text-align: center; font-weight: 700; }
+        .cheats-header h2 { font-size: 16px; margin-bottom: 0; }
+        .tabs { display: flex; gap: 0; background: #fafafa; border-bottom: 2px solid #e0e0e0; }
+        .tab-btn { flex: 1; padding: 12px; background: none; border: none; cursor: pointer; font-weight: 700; font-size: 12px; color: #666; border-bottom: 3px solid transparent; transition: all 0.3s; }
+        .tab-btn:hover { color: #E60012; background: #f0f0f0; }
         .tab-btn.active { color: white; background: linear-gradient(90deg, #E60012 0%, #003DA5 100%); border-bottom: 3px solid #FFCD00; }
         .tab-content { flex: 1; overflow-y: auto; display: none; }
         .tab-content.active { display: block; }
-        .content-wrapper { padding: 20px; height: 100%; overflow-y: auto; }
-        .cheat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .cheat-group { margin-bottom: 20px; }
-        .group-title { font-size: 13px; font-weight: 700; color: #003DA5; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid #FFCD00; }
-        .cheat-item { margin-bottom: 12px; }
-        .cheat-label { font-size: 12px; font-weight: 600; color: #333; margin-bottom: 6px; }
-        .input-group { display: flex; gap: 8px; }
-        input[type="number"], input[type="text"], select { padding: 8px 10px; border: 2px solid #ddd; border-radius: 4px; font-size: 12px; font-family: inherit; flex: 1; }
+        .content-wrapper { padding: 15px; }
+        .cheat-group { margin-bottom: 18px; }
+        .group-title { font-size: 12px; font-weight: 700; color: #003DA5; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 2px solid #FFCD00; }
+        .cheat-item { margin-bottom: 10px; }
+        .cheat-label { font-size: 11px; font-weight: 600; color: #333; margin-bottom: 5px; }
+        .input-group { display: flex; gap: 6px; }
+        input[type="number"], input[type="text"], select { padding: 6px 8px; border: 2px solid #ddd; border-radius: 3px; font-size: 11px; font-family: inherit; flex: 1; }
         input:focus, select:focus { outline: none; border-color: #E60012; }
-        button { padding: 10px 15px; background: linear-gradient(90deg, #E60012 0%, #003DA5 100%); color: white; border: none; border-radius: 4px; font-weight: 700; font-size: 12px; cursor: pointer; transition: all 0.3s; flex: 1; }
-        button:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(230,0,18,0.3); }
-        button.small { padding: 8px 12px; font-size: 11px; }
-        .status { padding: 8px 12px; border-radius: 4px; margin-top: 8px; font-size: 11px; display: none; font-weight: 600; }
+        button { padding: 8px 12px; background: linear-gradient(90deg, #E60012 0%, #003DA5 100%); color: white; border: none; border-radius: 3px; font-weight: 700; font-size: 11px; cursor: pointer; transition: all 0.3s; flex: 1; }
+        button:hover { transform: translateY(-1px); box-shadow: 0 3px 8px rgba(230,0,18,0.2); }
+        button.small { padding: 6px 10px; font-size: 10px; }
+        .drop-zone { border: 2px dashed #003DA5; border-radius: 4px; padding: 12px; text-align: center; margin: 10px 0; background: #f0f8ff; cursor: pointer; transition: all 0.3s; }
+        .drop-zone:hover { border-color: #E60012; background: #fff0f0; }
+        .drop-zone p { color: #003DA5; font-weight: 700; margin-bottom: 3px; font-size: 11px; }
+        textarea { width: 100%; height: 80px; padding: 8px; border: 2px solid #ddd; border-radius: 3px; font-family: monospace; font-size: 10px; display: none; margin: 8px 0; }
+        textarea.visible { display: block; }
+        .status { padding: 6px 10px; border-radius: 3px; margin-top: 6px; font-size: 10px; display: none; font-weight: 600; }
         .status.success { display: block; background: #d4edda; color: #155724; border-left: 3px solid #28A745; }
         .status.error { display: block; background: #f8d7da; color: #721C24; border-left: 3px solid #E60012; }
-        .code-display { background: #1a1a1a; color: #00ff00; padding: 12px; border-radius: 4px; font-family: monospace; font-size: 10px; max-height: 100px; overflow-y: auto; margin: 10px 0; border: 1px solid #333; }
-        .copy-hint { font-size: 11px; color: #666; margin-top: 8px; font-style: italic; }
-        .drop-zone { border: 2px dashed #003DA5; border-radius: 6px; padding: 20px; text-align: center; margin: 15px 0; background: #f0f8ff; cursor: pointer; transition: all 0.3s; }
-        .drop-zone:hover { border-color: #E60012; background: #fff0f0; }
-        .drop-zone p { color: #003DA5; font-weight: 700; margin-bottom: 5px; font-size: 12px; }
-        textarea { width: 100%; height: 100px; padding: 10px; border: 2px solid #ddd; border-radius: 4px; font-family: monospace; font-size: 11px; display: none; margin: 10px 0; }
-        textarea.visible { display: block; }
-        @media (max-width: 1024px) { .cheat-grid { grid-template-columns: 1fr; } .game-container { height: 45vh; } .menu-container { height: 55vh; } }
-        @media (max-width: 768px) { .tabs { padding-left: 10px; } .tab-btn { padding: 12px 15px; font-size: 12px; } .content-wrapper { padding: 15px; } .cheat-grid { grid-template-columns: 1fr; } }
+        .copy-hint { font-size: 10px; color: #666; margin-top: 6px; font-style: italic; }
+        .code-display { background: #1a1a1a; color: #00ff00; padding: 10px; border-radius: 3px; font-family: monospace; font-size: 9px; max-height: 80px; overflow-y: auto; margin: 8px 0; border: 1px solid #333; }
+        @media (max-width: 1024px) { .cheats-panel { width: 300px; } .main-layout { flex-direction: column; } .divider { width: 100%; height: 5px; cursor: row-resize; } }
     </style>
 </head>
 <body>
     <div class="header">
         <h1>🎮 PokePath TD - Cheats Edition</h1>
-        <p>Pokemon Red/Blue/Yellow Inspired | Using Bookmarklets</p>
     </div>
 
-    <div class="game-section">
-        <div class="game-controls">
-            <button onclick="refreshGameFrame()">🔄 Refresh Game</button>
-            <button onclick="clearLogs()">🗑️ Clear Logs</button>
-            <span id="iframeStatus" style="font-size: 12px; color: #E60012; font-weight: 700;">Checking iframe...</span>
-        </div>
-        <div class="game-container">
-            <iframe id="gameFrame" src="https://pokepath-td.org/"></iframe>
-        </div>
-        <div class="log-bar" id="logBar">
-            <div class="log-entry log-info">🟢 Log system ready</div>
-        </div>
-    </div>
-
-    <div class="menu-container">
-        <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('bookmarklets')">🪩 BOOKMARKLETS</button>
-            <button class="tab-btn" onclick="switchTab('cheats')">⚡ CHEATS GUIDE</button>
-        </div>
-
-        <!-- BOOKMARKLETS TAB -->
-        <div id="bookmarklets" class="tab-content active">
-            <div class="content-wrapper">
-                <div class="cheat-group">
-                    <div class="group-title">📥 EXPORT / IMPORT</div>
-                    <div class="cheat-item">
-                        <div style="font-size: 12px; color: #666; margin-bottom: 12px; line-height: 1.6;">
-                            <strong style="color: #003DA5;">How to use Bookmarklets:</strong><br>
-                            1. Adjust values below (bookmarklet updates instantly)<br>
-                            2. <strong>Drag the blue button to your Favorites bar</strong><br>
-                            3. Go to pokepath-td.org, right-click → Inspect (F12)<br>
-                            4. Click &lt;html&gt; to select it<br>
-                            5. <strong>Click the bookmarklet in Favorites</strong><br>
-                            6. Press F5 to reload
-                        </div>
-                    </div>
-                </div>
-
-                <div class="cheat-group">
-                    <div class="group-title">💾 SAVE BOOKMARKLETS</div>
-                    
-                    <div class="cheat-item">
-                        <div class="cheat-label">📥 Export Current Save</div>
-                        <a draggable="true" href="javascript:(function(){const d=localStorage.getItem('dataPokePath');if(!d){alert('❌ No save found!');return;}const blob=new Blob([d],{type:'text/plain'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='pokepath-save-'+new Date().toISOString().slice(0,10)+'.txt';a.click();URL.revokeObjectURL(url);alert('✅ Save exported!');})()" style="display: flex; text-decoration: none; gap: 8px;">
-                            <button class="small" draggable="true" style="flex: 1; cursor: grab;">📥 Drag to Favorites</button>
-                            <button class="small" style="flex: 0.3;" onclick="copyCode('export')">📋</button>
-                        </a>
-                    </div>
-
-                    <div class="cheat-item">
-                        <div class="cheat-label">🎮 Load My 100% Save</div>
-                        <a draggable="true" id="fullSaveLink" href="#" style="display: flex; text-decoration: none; gap: 8px;">
-                            <button class="small" draggable="true" style="flex: 1; cursor: grab;">🎮 Drag to Favorites</button>
-                            <button class="small" style="flex: 0.3;" onclick="copyCode('fullsave')">📋</button>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="cheat-group">
-                    <div class="group-title">📤 CUSTOM RESTORE</div>
-                    <div class="drop-zone" id="dropZone">
-                        <p>📂 Drop JSON/TXT file</p>
-                        <small>or click to browse</small>
-                    </div>
-                    <textarea id="jsonInput"></textarea>
-                    <div class="copy-hint">💡 Copy/paste your save JSON above, then use the bookmarklet from your Favorites</div>
-                </div>
+    <div class="main-layout">
+        <div class="game-panel">
+            <div class="game-controls">
+                <button onclick="refreshGameFrame()">🔄 Refresh</button>
+                <button onclick="clearLogs()">🗑️ Logs</button>
+                <span id="iframeStatus" style="font-size: 11px; color: #E60012; font-weight: 700; margin-left: auto;">Checking...</span>
+            </div>
+            <div class="game-container">
+                <iframe id="gameFrame" src="https://html-classic.itch.zone/html/15902423/PokePath%20TD%20WEB/index.html"></iframe>
+            </div>
+            <div class="log-bar" id="logBar">
+                <div class="log-entry log-info">🟢 Ready</div>
             </div>
         </div>
 
-        <!-- CHEATS GUIDE TAB -->
-        <div id="cheats" class="tab-content">
-            <div class="content-wrapper">
-                <div class="cheat-grid">
-                    <!-- LEFT COLUMN -->
-                    <div>
-                        <div class="cheat-group">
-                            <div class="group-title">💰 MONEY</div>
-                            <div class="cheat-item">
-                                <div class="cheat-label">Gold Amount</div>
-                                <div class="input-group">
-                                    <input type="number" id="goldVal" value="999999999">
-                                    <button class="small" onclick="generateBookmarklet('gold')">Code</button>
-                                </div>
-                            </div>
-                            <div class="cheat-item">
-                                <div class="cheat-label">Persian Gold</div>
-                                <div class="input-group">
-                                    <input type="number" id="persianVal" value="99999">
-                                    <button class="small" onclick="generateBookmarklet('persian')">Code</button>
-                                </div>
-                            </div>
-                        </div>
+        <div class="divider" id="divider"></div>
 
-                        <div class="cheat-group">
-                            <div class="group-title">⭐ PROGRESSION</div>
-                            <div class="cheat-item">
-                                <div class="cheat-label">Stars</div>
-                                <div class="input-group">
-                                    <input type="number" id="starsVal" value="900" max="900">
-                                    <button class="small" onclick="generateBookmarklet('stars')">Code</button>
-                                </div>
-                            </div>
-                            <div class="cheat-item">
-                                <div class="cheat-label">Waves</div>
-                                <div class="input-group">
-                                    <input type="number" id="waveVal" value="99">
-                                    <button class="small" onclick="generateBookmarklet('waves')">Code</button>
-                                </div>
-                            </div>
-                            <div class="cheat-item">
-                                <div class="cheat-label">Species (0-124)</div>
-                                <div class="input-group">
-                                    <input type="number" id="speciesVal" value="124" min="0" max="124">
-                                    <button class="small" onclick="generateBookmarklet('species')">Code</button>
-                                </div>
-                            </div>
+        <div class="cheats-panel">
+            <div class="cheats-header">
+                <h2>🪩 CHEATS</h2>
+            </div>
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('save')">💾 SAVE</button>
+                <button class="tab-btn" onclick="switchTab('cheats')">⚡ CHEATS</button>
+            </div>
+
+            <!-- SAVE TAB -->
+            <div id="save" class="tab-content active">
+                <div class="content-wrapper">
+                    <div class="cheat-group">
+                        <div class="group-title">📥 EXPORT</div>
+                        <div class="cheat-item">
+                            <button onclick="exportCurrentSave()">📥 Export Save</button>
+                            <div id="exportStatus" class="status"></div>
                         </div>
                     </div>
 
-                    <!-- RIGHT COLUMN -->
-                    <div>
-                        <div class="cheat-group">
-                            <div class="group-title">🔧 BRUYVERNE</div>
-                            <div class="cheat-item">
-                                <div class="cheat-label">Power</div>
-                                <div class="input-group">
-                                    <input type="number" id="powerVal" value="5000">
-                                    <button class="small" onclick="generateBookmarklet('power')">Code</button>
-                                </div>
-                            </div>
-                            <div class="cheat-item">
-                                <div class="cheat-label">Speed</div>
-                                <div class="input-group">
-                                    <input type="number" id="speedVal" value="0.20" step="0.01">
-                                    <button class="small" onclick="generateBookmarklet('speed')">Code</button>
-                                </div>
-                            </div>
-                            <div class="cheat-item">
-                                <div class="cheat-label">Range Type</div>
-                                <div class="input-group">
-                                    <select id="rangeVal">
-                                        <option value="circle">Circle</option>
-                                        <option value="donut" selected>Donut</option>
-                                        <option value="line">Line</option>
-                                    </select>
-                                    <button class="small" onclick="generateBookmarklet('range')">Code</button>
-                                </div>
-                            </div>
+                    <div class="cheat-group">
+                        <div class="group-title">🎮 MY SAVE</div>
+                        <div class="cheat-item">
+                            <button onclick="showFullSaveBookmarklet()">🎮 Load 100% Save</button>
+                            <div id="myFullStatus" class="status"></div>
                         </div>
+                        <div class="code-display" id="fullSaveCode"></div>
+                    </div>
 
-                        <div class="cheat-group">
-                            <div class="group-title">⚡ STATUS EFFECTS</div>
-                            <div class="cheat-item">
-                                <div class="button-group">
-                                    <button class="small" onclick="generateBookmarklet('burn')">🔥 Burn</button>
-                                    <button class="small" onclick="generateBookmarklet('poison')">☠️ Poison</button>
-                                    <button class="small" onclick="generateBookmarklet('curse')">💀 Curse</button>
-                                    <button class="small" onclick="generateBookmarklet('stun')">⭐ Stun</button>
-                                </div>
-                            </div>
+                    <div class="cheat-group">
+                        <div class="group-title">📤 RESTORE</div>
+                        <div class="drop-zone" id="dropZone">
+                            <p>📂 Drop JSON</p>
+                            <small>or click</small>
                         </div>
-
-                        <div class="cheat-group">
-                            <div class="group-title">⚡ ONE-CLICK</div>
-                            <div class="cheat-item">
-                                <button onclick="generateBookmarklet('allachievements')">🏆 All Achievements</button>
-                            </div>
-                            <div class="cheat-item">
-                                <button onclick="generateBookmarklet('allspecies')">👹 124 Species</button>
-                            </div>
-                        </div>
+                        <textarea id="jsonInput"></textarea>
+                        <button onclick="showRestoreBookmarklet()">📤 Generate</button>
+                        <div id="customStatus" class="status"></div>
+                        <div class="code-display" id="restoreCode"></div>
                     </div>
                 </div>
-                <div id="codeOutput" class="code-display" style="display: none;"></div>
+            </div>
+
+            <!-- CHEATS TAB -->
+            <div id="cheats" class="tab-content">
+                <div class="content-wrapper">
+                    <div class="cheat-group">
+                        <div class="group-title">💰 MONEY</div>
+                        <div class="cheat-item">
+                            <div class="cheat-label">Gold</div>
+                            <div class="input-group">
+                                <input type="number" id="goldVal" value="999999999">
+                                <button class="small" onclick="genCode('gold')">Code</button>
+                            </div>
+                        </div>
+                        <div class="cheat-item">
+                            <div class="cheat-label">Persian</div>
+                            <div class="input-group">
+                                <input type="number" id="persianVal" value="99999">
+                                <button class="small" onclick="genCode('persian')">Code</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cheat-group">
+                        <div class="group-title">⭐ PROGRESSION</div>
+                        <div class="cheat-item">
+                            <div class="cheat-label">Stars</div>
+                            <div class="input-group">
+                                <input type="number" id="starsVal" value="900">
+                                <button class="small" onclick="genCode('stars')">Code</button>
+                            </div>
+                        </div>
+                        <div class="cheat-item">
+                            <div class="cheat-label">Waves</div>
+                            <div class="input-group">
+                                <input type="number" id="waveVal" value="99">
+                                <button class="small" onclick="genCode('waves')">Code</button>
+                            </div>
+                        </div>
+                        <div class="cheat-item">
+                            <div class="cheat-label">Species</div>
+                            <div class="input-group">
+                                <input type="number" id="speciesVal" value="124" max="124">
+                                <button class="small" onclick="genCode('species')">Code</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cheat-group">
+                        <div class="group-title">🔧 BRUYVERNE</div>
+                        <div class="cheat-item">
+                            <div class="input-group" style="flex-direction: row;">
+                                <button class="small" onclick="genCode('power')" style="flex: 0.5;">Power</button>
+                                <input type="number" id="powerVal" value="5000" style="flex: 1;">
+                            </div>
+                        </div>
+                        <div class="cheat-item">
+                            <div class="input-group" style="flex-direction: row;">
+                                <button class="small" onclick="genCode('speed')" style="flex: 0.5;">Speed</button>
+                                <input type="number" id="speedVal" value="0.20" step="0.01" style="flex: 1;">
+                            </div>
+                        </div>
+                        <div class="cheat-item">
+                            <div class="input-group" style="flex-direction: row;">
+                                <button class="small" onclick="genCode('range')" style="flex: 0.5;">Range</button>
+                                <select id="rangeVal" style="flex: 1;">
+                                    <option value="circle">Circle</option>
+                                    <option value="donut" selected>Donut</option>
+                                    <option value="line">Line</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cheat-group">
+                        <div class="group-title">⚡ STATUS</div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+                            <button class="small" onclick="genCode('burn')">🔥 Burn</button>
+                            <button class="small" onclick="genCode('poison')">☠️ Poison</button>
+                            <button class="small" onclick="genCode('curse')">💀 Curse</button>
+                            <button class="small" onclick="genCode('stun')">⭐ Stun</button>
+                        </div>
+                    </div>
+
+                    <div class="cheat-group">
+                        <div class="group-title">⚡ ONE-CLICK</div>
+                        <button onclick="genCode('allachievements')" style="margin-bottom: 6px;">🏆 All Achievements</button>
+                        <button onclick="genCode('allspecies')">👹 124 Species</button>
+                    </div>
+
+                    <div class="code-display" id="codeOutput"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -243,106 +219,57 @@
     <script>
         const FULL_SAVE={"config":{"scale":1,"language":0,"audio":{"master":10,"music":8,"ui":10,"effects":10},"showDamage":true,"showRoute":true,"autoReset":2,"autoStop":true,"displayHealth":1,"showTC":true},"save":{"new":false,"player":{"name":"sOARESDEN","portrait":14,"gold":6739561,"health":[14,14,14,14,14,14,14,14,14],"records":[100,100,100,100,100,100,100,100,100],"stars":900,"teamSlots":10,"extraGold":98},"team":[],"box":[],"area":{"routeNumber":0,"routeWaves":[100,100,100,100,100,100,100,100,100]}}};
 
-        function log(msg, type='info'){
-            const logBar=document.getElementById('logBar');
-            const entry=document.createElement('div');
-            entry.className=`log-entry log-${type}`;
-            entry.textContent=`[${new Date().toLocaleTimeString()}] ${msg}`;
-            logBar.insertBefore(entry, logBar.firstChild);
-            if(logBar.children.length>20) logBar.removeChild(logBar.lastChild);
-        }
+        function log(m,t='info'){const e=document.getElementById('logBar');const d=document.createElement('div');d.className=`log-entry log-${t}`;d.textContent=`[${new Date().toLocaleTimeString()}] ${m}`;e.insertBefore(d,e.firstChild);if(e.children.length>15)e.removeChild(e.lastChild);}
+        
+        function clearLogs(){document.getElementById('logBar').innerHTML='<div class="log-entry log-info">🟢 Cleared</div>';log('Logs cleared','info');}
+        
+        function refreshGameFrame(){log('🔄 Refreshing...','info');const i=document.getElementById('gameFrame');i.src=i.src;}
+        
+        function switchTab(t){document.querySelectorAll('.tab-content').forEach(e=>e.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(e=>e.classList.remove('active'));document.getElementById(t).classList.add('active');event.target.classList.add('active');log(`Switched to ${t}`,'info');}
 
-        function clearLogs(){
-            document.getElementById('logBar').innerHTML='<div class="log-entry log-info">🟢 Logs cleared</div>';
-        }
+        // DIVIDER RESIZE
+        const divider=document.getElementById('divider');const gamePanel=document.querySelector('.game-panel');const cheatsPanel=document.querySelector('.cheats-panel');const mainLayout=document.querySelector('.main-layout');let isResizing=false;
+        divider.addEventListener('mousedown',()=>{isResizing=true;});
+        document.addEventListener('mousemove',(e)=>{if(!isResizing)return;const totalWidth=mainLayout.clientWidth;const newGameWidth=e.clientX;const ratio=newGameWidth/totalWidth*100;gamePanel.style.flex=`0 0 ${Math.max(30,Math.min(70,ratio))}%`;cheatsPanel.style.width=`${Math.min(70,Math.max(30,100-ratio))}%`;});
+        document.addEventListener('mouseup',()=>{isResizing=false;});
 
-        function checkIframe(){
-            const iframe=document.getElementById('gameFrame');
-            try{
-                if(iframe.contentWindow && iframe.contentWindow.document){
-                    document.getElementById('iframeStatus').textContent='✅ Game iframe loaded';
-                    document.getElementById('iframeStatus').style.color='#28A745';
-                    log('✅ Game iframe is loaded and accessible','success');
-                }
-            }catch(e){
-                document.getElementById('iframeStatus').textContent='⚠️ Cross-origin - Using bookmarklets';
-                document.getElementById('iframeStatus').style.color='#FFCD00';
-                log('⚠️ Cross-origin restriction - Use bookmarklets to modify game','warning');
+        function exportCurrentSave(){try{const d=localStorage.getItem('dataPokePath');if(!d){log('❌ No save','error');return;}navigator.clipboard.writeText(d);log('✅ Copied to clipboard','success');document.getElementById('jsonInput').value=d;document.getElementById('jsonInput').classList.add('visible');}catch(e){log('❌ Error','error');}}
+
+        function showFullSaveBookmarklet(){const code=`javascript:(function(){const fs=${JSON.stringify(FULL_SAVE)};localStorage.setItem('dataPokePath',JSON.stringify(fs));alert('✅ 100% Save loaded! Reload');location.reload();})()`;document.getElementById('fullSaveCode').textContent=code;log('✅ Full save code generated','success');}
+
+        function showRestoreBookmarklet(){const j=document.getElementById('jsonInput').value.trim();if(!j){log('❌ Paste JSON first','error');return;}try{JSON.parse(j);const code=`javascript:(function(){const s='${j.replace(/'/g,"\\\'")}';localStorage.setItem('dataPokePath',s);alert('✅ Save restored! Reload');location.reload();})()`;document.getElementById('restoreCode').textContent=code;log('✅ Restore code generated','success');}catch(e){log('❌ Invalid JSON','error');}}
+
+        function genCode(t){let c='';const v=(id)=>document.getElementById(id)?.value;
+            switch(t){
+                case'gold':c=`const d=JSON.parse(localStorage.getItem('dataPokePath'));d.save.player.gold=${v('goldVal')||999999};localStorage.setItem('dataPokePath',JSON.stringify(d));alert('✅ Gold!');location.reload();`;break;
+                case'persian':c=`const d=JSON.parse(localStorage.getItem('dataPokePath'));d.save.player.achievementProgress={stolenGold:${v('persianVal')||99999}};localStorage.setItem('dataPokePath',JSON.stringify(d));alert('✅ Persian!');location.reload();`;break;
+                case'stars':c=`const d=JSON.parse(localStorage.getItem('dataPokePath'));d.save.player.stars=${v('starsVal')||900};localStorage.setItem('dataPokePath',JSON.stringify(d));alert('✅ Stars!');location.reload();`;break;
+                case'waves':c=`const d=JSON.parse(localStorage.getItem('dataPokePath'));d.save.area.routeWaves[d.save.area.routeNumber]=${v('waveVal')||99};localStorage.setItem('dataPokePath',JSON.stringify(d));alert('✅ Waves!');location.reload();`;break;
+                case'species':c=`const sp=['delibird','kecleon','ninjask','zoroark','rattata','raticate','zubat','golbat','geodude','graveler','golem','doduo','dodrio','chingling','chimecho','nosepass','probopass','bellsprout','weepinbell','victreebel','chansey','solrock','lunatone','rhyhorn','rhydon','caterpie','superCaterpie','metapod','butterfree','venonat','venomoth','slugma','magcargo','tropius','porygon','larvitar','pupitar','tyranitar','scraggy','scrafty','furfrou','kangaskhan','articuno','zapdos','moltres','zigzagoon','linoone','magnemite','magneton','magnezone','poochyena','mightyena','purrloin','liepard','exeggcute','exeggutor','bronzor','bronzong','whismur','loudred','exploud','cinccino','seviper','zangoose','lickitung','lickilicky','wurmple','cascoon','beautifly','dustox','yanma','drifloon','drifblim','skarmory','porygon2','dratini','dragonair','dragonite','baltoy','claydol','sigilyph','yanmega','raikou','entei','suicune','sentret','furret','ponyta','rapidash','swinub','piloswine','mamoswine','spearow','fearow','combee','vespiquen','snover','abomasnow','lotad','lombre','ludicolo','seedot','nuzleaf','shiftry','shroomish','breloom','makuhita','hariyama','aron','lairon','aggron','meditite','medicham','electrike','manectric','plusle','minun','volbeat','illumise','roselia','gulpin','swalot','carvanha','sharpedo'];const d=JSON.parse(localStorage.getItem('dataPokePath'));d.save.player.stats={defeatedSpecies:sp.slice(0,${v('speciesVal')||124})};localStorage.setItem('dataPokePath',JSON.stringify(d));alert('✅ Species!');location.reload();`;break;
+                case'power':c=`const d=JSON.parse(localStorage.getItem('dataPokePath'));d.save.team[7]={specie:{power:{base:${v('powerVal')||5000},scale:0}}};localStorage.setItem('dataPokePath',JSON.stringify(d));alert('✅ Power!');location.reload();`;break;
+                case'speed':c=`const d=JSON.parse(localStorage.getItem('dataPokePath'));d.save.team[7]={specie:{speed:{base:${v('speedVal')||0.2}*1000,scale:0}}};localStorage.setItem('dataPokePath',JSON.stringify(d));alert('✅ Speed!');location.reload();`;break;
+                case'range':c=`const d=JSON.parse(localStorage.getItem('dataPokePath'));d.save.team[7]={specie:{rangeType:'${v('rangeVal')||'donut'}'}};localStorage.setItem('dataPokePath',JSON.stringify(d));alert('✅ Range!');location.reload();`;break;
+                case'burn':c=`const d=JSON.parse(localStorage.getItem('dataPokePath'));d.save.player.stats={appliedBurns:${v('burnVal')||9900}};localStorage.setItem('dataPokePath',JSON.stringify(d));alert('✅ Burn!');location.reload();`;break;
+                case'poison':c=`const d=JSON.parse(localStorage.getItem('dataPokePath'));d.save.player.stats={appliedPoisons:${v('poisonVal')||9900}};localStorage.setItem('dataPokePath',JSON.stringify(d));alert('✅ Poison!');location.reload();`;break;
+                case'curse':c=`const d=JSON.parse(localStorage.getItem('dataPokePath'));d.save.player.stats={appliedCurses:${v('curseVal')||9900}};localStorage.setItem('dataPokePath',JSON.stringify(d));alert('✅ Curse!');location.reload();`;break;
+                case'stun':c=`const d=JSON.parse(localStorage.getItem('dataPokePath'));d.save.player.stats={appliedStuns:${v('stunVal')||9900}};localStorage.setItem('dataPokePath',JSON.stringify(d));alert('✅ Stun!');location.reload();`;break;
+                case'allachievements':c=`const d=JSON.parse(localStorage.getItem('dataPokePath'));d.save.player.achievements.forEach(a=>a.status=true);localStorage.setItem('dataPokePath',JSON.stringify(d));alert('✅ Achievements!');location.reload();`;break;
+                case'allspecies':c=`const sp=['delibird','kecleon','ninjask','zoroark','rattata','raticate','zubat','golbat','geodude','graveler','golem','doduo','dodrio','chingling','chimecho','nosepass','probopass','bellsprout','weepinbell','victreebel','chansey','solrock','lunatone','rhyhorn','rhydon','caterpie','superCaterpie','metapod','butterfree','venonat','venomoth','slugma','magcargo','tropius','porygon','larvitar','pupitar','tyranitar','scraggy','scrafty','furfrou','kangaskhan','articuno','zapdos','moltres','zigzagoon','linoone','magnemite','magneton','magnezone','poochyena','mightyena','purrloin','liepard','exeggcute','exeggutor','bronzor','bronzong','whismur','loudred','exploud','cinccino','seviper','zangoose','lickitung','lickilicky','wurmple','cascoon','beautifly','dustox','yanma','drifloon','drifblim','skarmory','porygon2','dratini','dragonair','dragonite','baltoy','claydol','sigilyph','yanmega','raikou','entei','suicune','sentret','furret','ponyta','rapidash','swinub','piloswine','mamoswine','spearow','fearow','combee','vespiquen','snover','abomasnow','lotad','lombre','ludicolo','seedot','nuzleaf','shiftry','shroomish','breloom','makuhita','hariyama','aron','lairon','aggron','meditite','medicham','electrike','manectric','plusle','minun','volbeat','illumise','roselia','gulpin','swalot','carvanha','sharpedo'];const d=JSON.parse(localStorage.getItem('dataPokePath'));d.save.player.stats={defeatedSpecies:sp};localStorage.setItem('dataPokePath',JSON.stringify(d));alert('✅ All species!');location.reload();`;break;
             }
-        }
+            if(!c){log('Error generating','error');return;}
+            document.getElementById('codeOutput').textContent=c;log(`Generated code for ${t}`,'success');}
 
-        function refreshGameFrame(){
-            const iframe=document.getElementById('gameFrame');
-            log('🔄 Refreshing game iframe...','info');
-            iframe.src=iframe.src;
-            setTimeout(checkIframe, 2000);
-        }
-
-        function switchTab(t){
-            document.querySelectorAll('.tab-content').forEach(e=>e.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(e=>e.classList.remove('active'));
-            document.getElementById(t).classList.add('active');
-            event.target.classList.add('active');
-            log(`📂 Switched to ${t} tab`,'info');
-        }
-
-        function generateBookmarklet(type){
-            let code='';
-            const val=(id)=>document.getElementById(id)?.value;
-            
-            switch(type){
-                case'gold':code=`const d=JSON.parse(localStorage.getItem('dataPokePath'));d.save.player.gold=${val('goldVal')||999999};localStorage.setItem('dataPokePath',JSON.stringify(d));alert('✅ Gold applied!');location.reload();`;break;
-                case'persian':code=`const d=JSON.parse(localStorage.getItem('dataPokePath'));d.save.player.achievementProgress=d.save.player.achievementProgress||{};d.save.player.achievementProgress.stolenGold=${val('persianVal')||99999};localStorage.setItem('dataPokePath',JSON.stringify(d));alert('✅ Persian Gold applied!');location.reload();`;break;
-                case'stars':code=`const d=JSON.parse(localStorage.getItem('dataPokePath'));d.save.player.stars=${val('starsVal')||900};localStorage.setItem('dataPokePath',JSON.stringify(d));alert('✅ Stars applied!');location.reload();`;break;
-                case'waves':code=`const d=JSON.parse(localStorage.getItem('dataPokePath'));d.save.area.routeWaves[d.save.area.routeNumber]=${val('waveVal')||99};localStorage.setItem('dataPokePath',JSON.stringify(d));alert('✅ Waves applied!');location.reload();`;break;
-                case'species':code=`const sp=["delibird","kecleon","ninjask","zoroark","rattata","raticate","zubat","golbat","geodude","graveler","golem","doduo","dodrio","chingling","chimecho","nosepass","probopass","bellsprout","weepinbell","victreebel","chansey","solrock","lunatone","rhyhorn","rhydon","caterpie","superCaterpie","metapod","butterfree","venonat","venomoth","slugma","magcargo","tropius","porygon","larvitar","pupitar","tyranitar","scraggy","scrafty","furfrou","kangaskhan","articuno","zapdos","moltres","zigzagoon","linoone","magnemite","magneton","magnezone","poochyena","mightyena","purrloin","liepard","exeggcute","exeggutor","bronzor","bronzong","whismur","loudred","exploud","cinccino","seviper","zangoose","lickitung","lickilicky","wurmple","cascoon","beautifly","dustox","yanma","drifloon","drifblim","skarmory","porygon2","dratini","dragonair","dragonite","baltoy","claydol","sigilyph","yanmega","raikou","entei","suicune","sentret","furret","ponyta","rapidash","swinub","piloswine","mamoswine","spearow","fearow","combee","vespiquen","snover","abomasnow","lotad","lombre","ludicolo","seedot","nuzleaf","shiftry","shroomish","breloom","makuhita","hariyama","aron","lairon","aggron","meditite","medicham","electrike","manectric","plusle","minun","volbeat","illumise","roselia","gulpin","swalot","carvanha","sharpedo"];const d=JSON.parse(localStorage.getItem('dataPokePath'));d.save.player.stats=d.save.player.stats||{};d.save.player.stats.defeatedSpecies=sp.slice(0,${val('speciesVal')||124});localStorage.setItem('dataPokePath',JSON.stringify(d));alert('✅ Species applied!');location.reload();`;break;
-                case'power':code=`const d=JSON.parse(localStorage.getItem('dataPokePath'));d.save.team[7]=d.save.team[7]||{};d.save.team[7].specie=d.save.team[7].specie||{power:{}};d.save.team[7].specie.power.base=${val('powerVal')||5000};d.save.team[7].specie.power.scale=0;localStorage.setItem('dataPokePath',JSON.stringify(d));alert('✅ Power applied!');location.reload();`;break;
-                case'speed':code=`const d=JSON.parse(localStorage.getItem('dataPokePath'));d.save.team[7]=d.save.team[7]||{};d.save.team[7].specie=d.save.team[7].specie||{speed:{}};d.save.team[7].specie.speed.base=${val('speedVal')||0.2}*1000;d.save.team[7].specie.speed.scale=0;localStorage.setItem('dataPokePath',JSON.stringify(d));alert('✅ Speed applied!');location.reload();`;break;
-                case'range':code=`const d=JSON.parse(localStorage.getItem('dataPokePath'));d.save.team[7]=d.save.team[7]||{};d.save.team[7].specie=d.save.team[7].specie||{};d.save.team[7].specie.rangeType='${val('rangeVal')||'donut'}';localStorage.setItem('dataPokePath',JSON.stringify(d));alert('✅ Range applied!');location.reload();`;break;
-                case'burn':case'poison':case'curse':case'stun':const stat=type.charAt(0).toUpperCase()+type.slice(1);const stat2='applied'+stat+'s';code=`const d=JSON.parse(localStorage.getItem('dataPokePath'));d.save.player.stats=d.save.player.stats||{};d.save.player.stats.${stat2}=${val(type+'Val')||9900};localStorage.setItem('dataPokePath',JSON.stringify(d));alert('✅ ${stat} applied!');location.reload();`;break;
-                case'allachievements':code=`const d=JSON.parse(localStorage.getItem('dataPokePath'));d.save.player.achievements=d.save.player.achievements||[];d.save.player.achievements.forEach(a=>a.status=true);localStorage.setItem('dataPokePath',JSON.stringify(d));alert('✅ All achievements!');location.reload();`;break;
-                case'allspecies':code=`const sp=["delibird","kecleon","ninjask","zoroark","rattata","raticate","zubat","golbat","geodude","graveler","golem","doduo","dodrio","chingling","chimecho","nosepass","probopass","bellsprout","weepinbell","victreebel","chansey","solrock","lunatone","rhyhorn","rhydon","caterpie","superCaterpie","metapod","butterfree","venonat","venomoth","slugma","magcargo","tropius","porygon","larvitar","pupitar","tyranitar","scraggy","scrafty","furfrou","kangaskhan","articuno","zapdos","moltres","zigzagoon","linoone","magnemite","magneton","magnezone","poochyena","mightyena","purrloin","liepard","exeggcute","exeggutor","bronzor","bronzong","whismur","loudred","exploud","cinccino","seviper","zangoose","lickitung","lickilicky","wurmple","cascoon","beautifly","dustox","yanma","drifloon","drifblim","skarmory","porygon2","dratini","dragonair","dragonite","baltoy","claydol","sigilyph","yanmega","raikou","entei","suicune","sentret","furret","ponyta","rapidash","swinub","piloswine","mamoswine","spearow","fearow","combee","vespiquen","snover","abomasnow","lotad","lombre","ludicolo","seedot","nuzleaf","shiftry","shroomish","breloom","makuhita","hariyama","aron","lairon","aggron","meditite","medicham","electrike","manectric","plusle","minun","volbeat","illumise","roselia","gulpin","swalot","carvanha","sharpedo"];const d=JSON.parse(localStorage.getItem('dataPokePath'));d.save.player.stats=d.save.player.stats||{};d.save.player.stats.defeatedSpecies=sp;localStorage.setItem('dataPokePath',JSON.stringify(d));alert('✅ All species!');location.reload();`;break;
-            }
-            
-            if(!code){log('❌ Error generating bookmarklet','error');return;}
-            
-            const codeOutput=document.getElementById('codeOutput');
-            codeOutput.textContent=code;
-            codeOutput.style.display='block';
-            codeOutput.scrollIntoView({behavior:'smooth'});
-            
-            log(`📋 Generated code for: ${type}`,'success');
-        }
-
-        function copyCode(type){
-            let code='';
-            if(type==='export'){
-                code=`javascript:(function(){const d=localStorage.getItem('dataPokePath');if(!d){alert('❌ No save found!');return;}const blob=new Blob([d],{type:'text/plain'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='pokepath-save-'+new Date().toISOString().slice(0,10)+'.txt';a.click();URL.revokeObjectURL(url);alert('✅ Save exported!');})()`
-            }else if(type==='fullsave'){
-                code=`javascript:(function(){const fs=${JSON.stringify(FULL_SAVE)};localStorage.setItem('dataPokePath',JSON.stringify(fs));alert('✅ My 100% Save loaded! Reload the game');location.reload();})()`;
-            }
-            navigator.clipboard.writeText(code).then(()=>{
-                log('✅ Code copied to clipboard','success');
-            }).catch(()=>{
-                log('❌ Copy failed','error');
-            });
-        }
-
-        // Drop zone
+        // DROP ZONE
         const dz=document.getElementById('dropZone');
         dz.addEventListener('dragover',e=>{e.preventDefault();dz.style.background='#fff0f0';});
         dz.addEventListener('dragleave',()=>{dz.style.background='#f0f8ff';});
-        dz.addEventListener('drop',e=>{e.preventDefault();dz.style.background='#f0f8ff';const f=e.dataTransfer.files[0];if(f){const r=new FileReader;r.onload=e=>{document.getElementById('jsonInput').value=e.target.result;document.getElementById('jsonInput').classList.add('visible');log(`📂 Loaded file: ${f.name}`,'success');};r.readAsText(f);}});
-        dz.addEventListener('click',()=>{const i=document.createElement('input');i.type='file';i.accept='.json,.txt';i.onchange=e=>{const r=new FileReader;r.onload=t=>{document.getElementById('jsonInput').value=t.target.result;document.getElementById('jsonInput').classList.add('visible');log(`📂 Loaded file: ${e.target.files[0].name}`,'success');};r.readAsText(e.target.files[0]);};i.click();});
+        dz.addEventListener('drop',e=>{e.preventDefault();dz.style.background='#f0f8ff';const f=e.dataTransfer.files[0];if(f){const r=new FileReader;r.onload=e=>{document.getElementById('jsonInput').value=e.target.result;document.getElementById('jsonInput').classList.add('visible');log(`Loaded: ${f.name}`,'success');};r.readAsText(f);}});
+        dz.addEventListener('click',()=>{const i=document.createElement('input');i.type='file';i.accept='.json,.txt';i.onchange=e=>{const r=new FileReader;r.onload=t=>{document.getElementById('jsonInput').value=t.target.result;document.getElementById('jsonInput').classList.add('visible');log(`Loaded: ${e.target.files[0].name}`,'success');};r.readAsText(e.target.files[0]);};i.click();});
 
-        // Setup full save bookmarklet
-        const fullSaveCode=`javascript:(function(){const fs=${JSON.stringify(FULL_SAVE)};localStorage.setItem('dataPokePath',JSON.stringify(fs));alert('✅ My 100% Save loaded! Reload the game');location.reload();})()`;
-        document.getElementById('fullSaveLink').href=fullSaveCode;
-
-        // Init
-        log('🎮 PokePath TD Cheats Edition loaded','success');
-        checkIframe();
-        setInterval(checkIframe,5000);
+        // INIT
+        log('✅ Ready','success');
+        document.getElementById('iframeStatus').textContent='🎮 Game loaded';
+        document.getElementById('iframeStatus').style.color='#28A745';
     </script>
 </body>
 </html>
